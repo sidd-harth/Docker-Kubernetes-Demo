@@ -31,7 +31,7 @@ create database employees
 **2. Build the app using maven**
 
 ```bash
-mvn package
+mvn clean package
 ```
 
 Alternatively, you can run the app without packaging it using -
@@ -57,3 +57,29 @@ The app defines following CRUD APIs.
     DELETE /api/employees/{employeesId}
 
 You can test them using postman or any other rest client.
+
+## Docker Images for K8S Demo
+### Hardcoded Values
+```
+spring.datasource.url = jdbc:mysql://mysql-service:3306/hclDatabase?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+spring.datasource.username = hclUser
+spring.datasource.password = hclPassword
+spring.datasource.platform = mysql
+spring.datasource.initialization-mode = always
+```
+```
+siddharth67/springboot-mysql:hardcoded
+```
+
+### K8S Dynamic Values
+```
+spring.datasource.url = jdbc:mysql://${KUBE_CONFIG_HOST}:${KUBE_CONFIG_PORT}/${KUBE_CONFIG_DATABASE}?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+spring.datasource.username = ${KUBE_SECRET_USERNAME}
+spring.datasource.password = ${KUBE_SECRET_PASSWORD}
+spring.datasource.platform = mysql
+spring.datasource.initialization-mode = always
+```
+
+```
+siddharth67/springboot-mysql:dynamic
+```
